@@ -211,6 +211,23 @@ pprint.pprint({'username': 'rescrv', 'name': 'Robert Escriva', 'dog_food': {'dog
 
 print('>>>')
 comment('''
+Full text search is provided by adapting the Succinct work out of UC Berkeley that got published in 2015.  Here's what
+it would look like to conduct a search of the user object for capabilities from accounts.example.org.  This will search
+"rescrv"'s user account for capabilities rooted in example.org.
+''')
+print('''>>> db.search('UserIAM', path='username.capabilities', key='rescrv', query=Regexp('^accounts.example.org'))
+...''')
+comment('''
+This will search all users regardless of key.  The difference between the two searches are that one is rooted under an
+object that will be searched and only the object's fields will be returned.  That's the search above with a key.  Of
+course it would be desirable (for batch jobs) to be able to search regardless of the user key.  For example to find all
+users who have not set dog_food2, a query like this could be formed:
+''')
+print('''>>> db.no_key_search('User', path='username.dogfood.dog_food2', query=MISSING)
+...''')
+
+print('>>>')
+comment('''
 There needs to be much more work done to simulate the key value store here.  Imagination can take hold because this toy
 has hit its inflection point of being too complex for a pitch (and preferrably written in rust as a real compiler).
 ''')
